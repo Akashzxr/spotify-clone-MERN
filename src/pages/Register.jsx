@@ -58,7 +58,7 @@ export default function Register() {
             />
           </div>
 
-          {/* Next Button */}
+          {/* Signup Button */}
           <div>
             <button
               type="submit"
