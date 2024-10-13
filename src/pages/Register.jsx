@@ -34,7 +34,7 @@ export default function Register() {
 
           <div className="space-y-2">
             <label htmlFor="email" className="block text-sm font-medium">
-              Email address
+              Email
             </label>
             <input
               type="email"
