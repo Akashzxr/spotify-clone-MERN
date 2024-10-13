@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Register() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-black text-white">
+    <div className="flex items-center justify-center min-h-svh bg-black text-white md:min-h-screen">
       <div className="w-full max-w-md p-7 space-y-6">
 
         {/* logo */}
