@@ -11,3 +11,13 @@
       src: url(./assets/fonts/SpotifyMixUITitle.woff2) format('woff2');
     }
   }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+  }
