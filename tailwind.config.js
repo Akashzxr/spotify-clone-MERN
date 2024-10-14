@@ -5,13 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'navbar-gray': '#1f1f1f',
+      }
+    },
     fontFamily:{
       'spotifytitle': ['spotifytitle'],
     },
-    colors: {
-      'navbar-gray': '#1f1f1f',
-    },
+   
   },
   plugins: [],
 }
