@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      spacing:{
+       '78.1vh' : '78.1vh'
+      },
       colors: {
         'navbar-gray': '#1f1f1f',
       }
@@ -13,7 +16,7 @@ export default {
     fontFamily:{
       'spotifytitle': ['spotifytitle'],
     },
-   
+  
   },
   plugins: [],
 }
