@@ -21,3 +21,40 @@
     border-radius: 50%;
     cursor: pointer;
   }
+
+  /* css for the music card */
+  .musiccard-play{
+    transition: opacity 0.2s ease-in;
+  }
+
+  .music-card:hover > .musiccard-play {
+    opacity: 1;
+    animation: music-card-play-btn 0.5s ease;
+  }
+
+  @keyframes music-card-play-btn {
+    from {bottom: 0;}
+    to {bottom: 16px;}
+  }
+
+  /* end of music card css */
+
+  /* custom scroll bar code */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: inherit; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(119, 118, 118); 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }

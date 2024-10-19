@@ -11,6 +11,7 @@ export default {
       },
       colors: {
         'navbar-gray': '#1f1f1f',
+        'background-gray' : '#121212',
       }
     },
     fontFamily:{

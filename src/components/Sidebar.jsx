@@ -16,7 +16,7 @@ const Sidebar = () => {
     <div className="flex px-3 bg-black">
       {/* Sidebar */}
       <div
-        className={`h-78.1vh bg-navbar-gray text-white px-2 py-3 duration-300 rounded-md ${
+        className={`h-78.1vh bg-background-gray text-white px-2 py-3 duration-300 rounded-md ${
           isCollapsed ? 'w-20' : 'w-64'
         } relative`}
       >
