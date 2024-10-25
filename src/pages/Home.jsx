@@ -13,7 +13,7 @@ function Home() {
        <div className='flex items-center justify-between'>
         {
           items.map((items,index)=>(
-            <MusicCard image={img}/>
+            <MusicCard key={index} image={img}/>
           ))
         }
        </div>

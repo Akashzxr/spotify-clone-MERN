@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/spotify.svg";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import { login } from "../api/auth";
+import { ToastContainer,toast } from "react-toastify";
 
 function Login() {
+  const navigate = useNavigate();
+  const [inputvalue, setInputValue] = useState({
+    email: "",
+    password: "",
+  });
+
+  //handle the changing input
+  const handleOnchange = (e) => {
+    const { name, value } = e.target;
+    setInputValue({
+      ...inputvalue,
+      [name]: value,
+    });
+  };
+
+  //handle form submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await login(inputvalue);
+    const { message,success } = result;
+    if(success){
+      navigate("/")
+    }
+    else{
+      toast.error(message)
+    }
+  }
+
+
   return (
     <div className="flex items-center justify-center min-h-svh bg-black text-white md:min-h-screen">
+      <ToastContainer/>
       <div className="w-full max-w-md p-7 space-y-6">
         {/* logo */}
         <div className="flex justify-center">
@@ -17,8 +49,7 @@ function Login() {
         </h1>
 
         {/* Form */}
-        <form className="space-y-4">
-          
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <label htmlFor="email" className="block text-sm font-medium">
               Email
@@ -28,6 +59,7 @@ function Login() {
               id="email"
               name="email"
               placeholder="name@domain.com"
+              onChange={handleOnchange}
               className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-green-400 bg-inherit"
             />
           </div>
@@ -41,6 +73,7 @@ function Login() {
               id="password"
               name="password"
               placeholder="password"
+              onChange={handleOnchange}
               className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-green-400 bg-inherit"
             />
           </div>
@@ -66,9 +99,9 @@ function Login() {
         {/* Register link */}
         <div className="space-x-2 flex items-center justify-center">
           <p className="text-gray-500 font-medium text-sm font-spotifytitle md:text-base">
-          Don't have an account?
+            Don't have an account?
             <Link to={"/register"} className="underline text-white ms-1">
-            Sign up for Spotify
+              Sign up for Spotify
             </Link>
             .
           </p>

@@ -1,9 +1,20 @@
 import React from "react";
 import logo from "../assets/spotify.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faRightFromBracket, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const [cookies, removeCookie] = useCookies([]);
+  const navigate = useNavigate();
+
+  //logout funtion
+  const logout = () => {
+    removeCookie("token");
+    navigate("/login");
+  };
+
   return (
     <div className="bg-black py-3 flex items-center justify-between px-6">
       {/* logo */}
@@ -28,8 +39,13 @@ function Navbar() {
       </div>
 
       {/* profile */}
-      <div className="w-10 h-10 bg-blue-500 flex items-center justify-center rounded-full">
-        <span className="font-semibold text-lg">A</span>
+      <div className="flex items-center gap-8">
+        <div>
+          <button onClick={logout} className="text-white flex items-center gap-4">Logout<FontAwesomeIcon icon={faRightFromBracket} color="white"/></button>
+        </div>
+        <div className="w-10 h-10 bg-blue-500 flex items-center justify-center rounded-full">
+          <span className="font-semibold text-lg">A</span>
+        </div>
       </div>
     </div>
   );

@@ -1,12 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/spotify.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signup,verifyUser } from "../api/auth";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Register() {
+  const [inputValues, setInputValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  //to hande the input value changes
+  const handleOnchange = (e) => {
+    const { name, value } = e.target;
+    setInputValues({
+      ...inputValues,
+      [name]: value,
+    });
+  };
+
+  //to hande the form submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await signup(inputValues);
+    const { message, success } = result;
+    if (success) {
+     await toast.success(message);
+    } else {
+      await toast.error(message);
+    }
+    navigate("/");
+  };
+
   return (
     <div className="flex items-center justify-center min-h-svh bg-black text-white md:min-h-screen">
+      <ToastContainer />
       <div className="w-full max-w-md p-7 space-y-6">
-
         {/* logo */}
         <div className="flex justify-center">
           <img src={logo} alt="Spotify Logo" className="w-12 h-12" />
@@ -18,7 +50,7 @@ export default function Register() {
         </h1>
 
         {/* Form */}
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <label htmlFor="username" className="block text-sm font-medium ">
               Username
@@ -28,6 +60,7 @@ export default function Register() {
               id="username"
               name="username"
               placeholder="username"
+              onChange={handleOnchange}
               className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-green-400 bg-inherit"
             />
           </div>
@@ -41,6 +74,7 @@ export default function Register() {
               id="email"
               name="email"
               placeholder="name@domain.com"
+              onChange={handleOnchange}
               className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-green-400 bg-inherit"
             />
           </div>
@@ -54,6 +88,7 @@ export default function Register() {
               id="password"
               name="password"
               placeholder="password"
+              onChange={handleOnchange}
               className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-green-400 bg-inherit"
             />
           </div>
@@ -81,12 +116,11 @@ export default function Register() {
           <p className="text-gray-500 font-medium text-base font-spotifytitle">
             Already have an account?
             <Link to={"/login"} className="underline text-white ms-1">
-               Log in here
+              Log in here
             </Link>
             .
           </p>
         </div>
-
       </div>
     </div>
   );
