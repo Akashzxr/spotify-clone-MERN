@@ -24,7 +24,6 @@ export const getHomePlaylist = async (id) =>{
         "artist" : item.artists.primary[0].name
     })
    }
-   console.log(songDetails);
    return songDetails;
   }catch (error){
     console.error(error); 

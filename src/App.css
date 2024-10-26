@@ -40,7 +40,7 @@
   /* end of music card css */
 
 
-  /* to give text elipses in multiple line in musiccard */
+  /* to give text elipses in multiple line in musiccard and footer */
   .music-name {
     display: -webkit-box;
     -webkit-box-orient: vertical;

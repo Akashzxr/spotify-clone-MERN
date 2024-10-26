@@ -2,11 +2,14 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { getHomePlaylist } from "../api/songs";
+import { useDispatch } from "react-redux";
+import { storeSong } from "../redux/songSlice";
 
 function MusicCard({ data }) {
+  const dispatch = useDispatch();
 
   const handleCardClick = () =>{
-    
+     dispatch(storeSong(data))
   }
 
   return (

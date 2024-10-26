@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import song from "../assets/song.mp3";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBackwardStep,
@@ -8,6 +7,7 @@ import {
   faPlay,
   faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 const Footer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -15,6 +15,7 @@ const Footer = () => {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(50);
   const audioRef = useRef(null);
+  const song = useSelector(state => state.song.song)
 
   // Toggle play/pause
   const togglePlayPause = () => {
@@ -56,23 +57,33 @@ const Footer = () => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-  //setting the volume to 50% initially
+ //to play the song automaticaly when a song is clicked
+  useEffect(()=>{
+    audioRef.current.play();
+    setIsPlaying(true);
+  },[song])
+
+  //setting the volume to 50% initially and pause intially
   useEffect(() => {
-    audioRef.current.volume = 0.5;
+    audioRef.current.volume = 0.5; 
+    audioRef.current.pause();
+    setIsPlaying(false);
   }, []);
+
+
 
   return (
     <div className="w-full max-w-full bg-black text-white p-4 flex items-center justify-between space-x-4">
       {/* Album Cover and Info */}
       <div className="flex items-center space-x-3">
         <img
-          src="https://via.placeholder.com/50"
+          src={song.image}
           alt="Album Cover"
           className="w-12 h-12 rounded"
         />
         <div>
-          <p className="text-sm font-bold w-max">Guggenheim Assemble</p>
-          <p className="text-xs text-gray-400">Daniel Pemberton</p>
+          <p className="text-sm font-bold max-w-48 music-name">{ song.name }</p>
+          <p className="text-xs text-gray-400">{ song.artist }</p>
         </div>
       </div>
 
@@ -141,7 +152,7 @@ const Footer = () => {
       {/* Hidden Audio Element */}
       <audio
         ref={audioRef}
-        src={song}
+        src={song.song}
         onTimeUpdate={handleTimeUpdate}
         onLoadedData={handleLoadedData}
       ></audio>
