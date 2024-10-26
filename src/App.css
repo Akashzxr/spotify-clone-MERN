@@ -39,6 +39,17 @@
 
   /* end of music card css */
 
+
+  /* to give text elipses in multiple line in musiccard */
+  .music-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
   /* custom scroll bar code */
   ::-webkit-scrollbar {
     width: 10px;
