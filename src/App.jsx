@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import HomeLayout from "./Layouts/HomeLayout";
 import Home from "./pages/Home";
+import SearchResult from "./components/searchResult";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
-          
+          <Route path="/search" element={<SearchResult />} />
         </Route>
       </Routes>
     </>

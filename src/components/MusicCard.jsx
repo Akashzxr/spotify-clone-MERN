@@ -22,7 +22,7 @@ function MusicCard({ data }) {
       </div>
 
       <div className="text-gray-400 font-spotifytitle text-sm overflow-hidden">
-        <h3 className="max-w-48 max-h-12 text-ellipsis  overflow-hidden music-name ">{data.name}</h3>
+        <h3 className="max-w-48 max-h-12 text-ellipsis overflow-hidden music-name ">{data.name}</h3>
         <h4 className="text-gray-200 mt-2">{data.artist}</h4>
       </div>
     </div>

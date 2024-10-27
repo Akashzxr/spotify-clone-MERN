@@ -30,3 +30,26 @@ export const getHomePlaylist = async (id) =>{
   }
 }
 
+//song searching
+export const searchSong = async (songName) => {
+  try{
+    const response =  await api.get(`/search/songs?query=${songName}`)
+    const searchResultArray = response.data.data.results;
+    const searchResult = [];
+  //extracting data from result and storing in a formated way
+   for(const item of searchResultArray){
+    searchResult.push({
+        "id" : item.id,
+        "name": item.name,
+        "song" :  item.downloadUrl[4].url,
+        "image" : item.image[2].url,
+        "artist" : item.artists.primary[0].name,
+        "duration" : item.duration
+    })
+   }
+   return searchResult;
+  }catch(error){
+    console.error(error);
+  }
+}
+

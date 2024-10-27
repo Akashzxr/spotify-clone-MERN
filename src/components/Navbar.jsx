@@ -1,19 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/spotify.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faRightFromBracket, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { searchSong } from "../api/songs";
+import { useDispatch } from "react-redux";
+import { storeSearch } from "../redux/songSlice";
 
 function Navbar() {
   const [cookies, removeCookie] = useCookies([]);
+  const [searchInput,setInput] = useState();
+  const [searchResult,setResult] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   //logout funtion
   const logout = () => {
     removeCookie("token");
     navigate("/login");
   };
+
+  //saving the input
+  const handleSearch = (e) =>{
+    setInput(e.target.value)
+  }
+ 
+  //handling the enter
+  const handleEnter = async(e) =>{
+    if(e.key === "Enter"){
+      //setResult(await searchSong(searchInput)); 
+      dispatch(storeSearch(await searchSong(searchInput)))
+      navigate('/search')     
+    }
+  }
 
   return (
     <div className="bg-black py-3 flex items-center justify-between px-6">
@@ -34,6 +54,8 @@ function Navbar() {
             placeholder="What do you want to play?"
             type="text"
             className="w-80 border-none bg-inherit text-white focus:outline-none"
+            onChange={handleSearch}
+            onKeyDown={handleEnter}
           />
         </div>
       </div>
