@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import liked from '../assets/liked-songs.png'
 import saved from '../assets/saved.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faBars } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -43,7 +43,7 @@ const Sidebar = () => {
             }`}
           >
             <span>
-              <img src={liked} className='rounded-md w-14'/>
+              <img src={liked} className='rounded-md w-14 h-12'/>
             </span>
             <span className={`${isCollapsed ? 'hidden' : 'block'}`}>
               Liked
@@ -55,13 +55,25 @@ const Sidebar = () => {
             }`}
           >
             <span>
-             <img src={saved} className='rounded-md w-14'/>
+             <img src={saved} className='rounded-md w-14 h-12'/>
             </span>
             <span className={`${isCollapsed ? 'hidden' : 'block'}`}>
               Saved
             </span>
           </li>
          
+          <li
+            className={`flex items-center gap-x-4 p-2 cursor-pointer hover:bg-gray-700 rounded-md ${
+              isCollapsed ? 'justify-center' : ''
+            }`}
+          >
+            <span className='w-14 h-12 rounded-md bg-slate-700 flex items-center justify-center'>
+             <FontAwesomeIcon icon={faAdd} className='text-xl'/>
+            </span>
+            <span className={`${isCollapsed ? 'hidden' : 'block'}`}>
+              New Playlist
+            </span>
+          </li>
         </ul>
       </div>
 
