@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAdd,
   faBackwardStep,
   faForwardStep,
+  faHeart,
   faPause,
   faPlay,
   faVolumeUp,
@@ -14,8 +16,9 @@ const Footer = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(50);
+  const [isDisplay,setisDisplay] = useState(false);
   const audioRef = useRef(null);
-  const song = useSelector(state => state.song.song)
+  const song = useSelector((state) => state.song.song);
 
   // Toggle play/pause
   const togglePlayPause = () => {
@@ -27,6 +30,16 @@ const Footer = () => {
     }
     setIsPlaying(!isPlaying);
   };
+
+  //handling the playlist display
+  const playlistDisplay = () => {
+   if (isDisplay){
+    setisDisplay(false);
+   }
+   else{
+    setisDisplay(true);
+   }
+  }
 
   // Update current time as the song progresses
   const handleTimeUpdate = () => {
@@ -57,33 +70,27 @@ const Footer = () => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
- //to play the song automaticaly when a song is clicked
-  useEffect(()=>{
+  //to play the song automaticaly when a song is clicked
+  useEffect(() => {
     audioRef.current.play();
     setIsPlaying(true);
-  },[song])
+  }, [song]);
 
   //setting the volume to 50% initially and pause intially
   useEffect(() => {
-    audioRef.current.volume = 0.5; 
+    audioRef.current.volume = 0.5;
     audioRef.current.pause();
     setIsPlaying(false);
   }, []);
-
-
 
   return (
     <div className="w-full max-w-full bg-black text-white p-4 flex items-center justify-between space-x-4">
       {/* Album Cover and Info */}
       <div className="flex items-center space-x-3">
-        <img
-          src={song.image}
-          alt="Album Cover"
-          className="w-12 h-12 rounded"
-        />
+        <img src={song.image} alt="Album Cover" className="w-12 h-12 rounded" />
         <div>
-          <p className="text-sm font-bold max-w-48 music-name">{ song.name }</p>
-          <p className="text-xs text-gray-400">{ song.artist }</p>
+          <p className="text-sm font-bold max-w-48 music-name">{song.name}</p>
+          <p className="text-xs text-gray-400">{song.artist}</p>
         </div>
       </div>
 
@@ -132,21 +139,42 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* audio control */}
-      <div className="flex items-center gap-2 justify-center">
-        <button>
-          <FontAwesomeIcon icon={faVolumeUp} />
-        </button>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          onChange={handleVolume}
-          className="slider h-1 appearance-none bg-gray-700 rounded-full cursor-pointer"
-          style={{
-            background: `linear-gradient(to right, #339a33 ${volume}%, #374151 0%)`,
-          }}
-        />
+      {/* audio control and liked and add to playlist */}
+
+      <div className="flex gap-4 items-center relative">
+        {/* like option and add to playlist */}
+        <div className="flex items-center gap-4">
+          <button className="active:text-red-500">
+            <FontAwesomeIcon icon={faHeart} className="focus:text-red-800" />
+          </button>
+
+          <button onClick={playlistDisplay}>
+            <FontAwesomeIcon icon={faAdd} />
+          </button>
+        </div>
+
+        {/* plalists list */}
+        <div className={isDisplay ?`absolute bottom-9 bg-gray-600 px-4 py-2 max-h-24 rounded-md font-spotifytitle cursor-pointer` : "hidden"}>
+            <div className="hover:bg-slate-500 rounded-md px-2">new playlist</div>
+            <div className="hover:bg-slate-500 rounded-md px-2">another playlist</div>
+        </div>
+
+        {/* audio control */}
+        <div className="flex items-center gap-2 justify-center">
+          <button>
+            <FontAwesomeIcon icon={faVolumeUp} />
+          </button>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            onChange={handleVolume}
+            className="slider h-1 appearance-none bg-gray-700 rounded-full cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, #339a33 ${volume}%, #374151 0%)`,
+            }}
+          />
+        </div>
       </div>
 
       {/* Hidden Audio Element */}
