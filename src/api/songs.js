@@ -5,8 +5,8 @@ const api = axios.create({
     baseURL: "https://saavn.dev/api", 
 })
 
-//home playlist songs data
 
+//home playlist songs data
 export const getHomePlaylist = async (id) =>{
   try{
    const response =  await api.get(`/playlists?id=${id}&limit=5`)
@@ -29,6 +29,7 @@ export const getHomePlaylist = async (id) =>{
     console.error(error); 
   }
 }
+
 
 //song searching
 export const searchSong = async (songName) => {

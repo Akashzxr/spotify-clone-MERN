@@ -8,6 +8,8 @@ import { searchSong } from "../api/songs";
 import { useDispatch } from "react-redux";
 import { storeSearch } from "../redux/songSlice";
 
+
+
 function Navbar() {
   const [cookies, removeCookie] = useCookies([]);
   const [searchInput,setInput] = useState();
@@ -34,6 +36,8 @@ function Navbar() {
       navigate('/search')     
     }
   }
+
+  
 
   return (
     <div className="bg-black py-3 flex items-center justify-between px-6">
