@@ -10,7 +10,7 @@ import {
   faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-import { addToLiked, getLikedSongs } from "../api/playlist";
+import { addToLiked, getLikedSongs, getUserPlaylist , addSongToPlaylist} from "../api/playlist";
 
 const Footer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -20,6 +20,7 @@ const Footer = () => {
   const [isDisplay,setisDisplay] = useState(false);
   const audioRef = useRef(null);
   const [isLiked,setLiked] = useState(false);
+  const [playLists,setPlaylists] = useState();
   const song = useSelector((state) => state.song.song);
 
   // Toggle play/pause
@@ -77,12 +78,16 @@ const Footer = () => {
     const result = await addToLiked(song.id);
   }
 
+  //add song to the playlist
+  const addToplaylist = async (playlistid) => {
+   const result = await addSongToPlaylist(playlistid.playlistId,song.id);
+  }
+
   //to play the song automaticaly when a song is clicked
   useEffect(() => {
     audioRef.current.play();
     setIsPlaying(true);
 
-    
     //checking if current song is in liked
     const checkLiked = async () => {
       const result = await getLikedSongs();
@@ -90,14 +95,22 @@ const Footer = () => {
       for(const item of likedArray){
         if(item === song.id){
           setLiked(true);
+          return;
         }
         else{
           setLiked(false);
         }        
       }
     }
+   checkLiked();   
+   
+   //get the available playlists
+   const getplaylists = async () => {
+    const result = await getUserPlaylist();
+     setPlaylists(result.data.playlists)     
+   }
 
-   checkLiked();    
+   getplaylists();
   }, [song]);
 
   //setting the volume to 50% initially and pause intially
@@ -105,7 +118,6 @@ const Footer = () => {
     audioRef.current.volume = 0.5;
     audioRef.current.pause();
     setIsPlaying(false);
-
   }, []);
 
   return (
@@ -179,9 +191,15 @@ const Footer = () => {
         </div>
 
         {/* plalists list */}
-        <div className={isDisplay ?`absolute bottom-9 bg-gray-600 px-4 py-2 max-h-24 rounded-md font-spotifytitle cursor-pointer` : "hidden"}>
-            <div className="hover:bg-slate-500 rounded-md px-2">new playlist</div>
-            <div className="hover:bg-slate-500 rounded-md px-2">another playlist</div>
+        <div className={isDisplay ?`overflow-y-auto absolute bottom-9 bg-gray-600 px-4 py-2 max-h-24 rounded-md font-spotifytitle cursor-pointer` : "hidden"}>
+            {
+              playLists ? 
+              playLists.map((item,index)=>(
+                <div onClick={()=>addToplaylist(item)} key={index} className="hover:bg-slate-500 rounded-md px-2">{ item.playlistName}</div>
+              )) 
+              : null
+            }
+            
         </div>
 
         {/* audio control */}

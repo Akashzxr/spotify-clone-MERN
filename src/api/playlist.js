@@ -48,3 +48,17 @@ export const getLikedSongs = async () => {
         console.error(error);
     }
 }
+
+//add song to the playlist
+export const addSongToPlaylist = async (playlistid,songid) => {
+    try {
+        const response = await api.patch('/addsong',{
+            playlistId: playlistid,
+            songId: songid
+        })
+        
+    } catch (error) {
+        console.error(error);
+        
+    }
+}
