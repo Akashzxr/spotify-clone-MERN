@@ -36,7 +36,6 @@ const Sidebar = () => {
     const getdata = async () => {
       const result = await getUserPlaylist();
       setPlaylists(result.data.playlists);
-      console.log(playlists);
     };
 
     getdata();

@@ -10,6 +10,7 @@ import {
   faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { addToLiked, getLikedSongs } from "../api/playlist";
 
 const Footer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -18,6 +19,7 @@ const Footer = () => {
   const [volume, setVolume] = useState(50);
   const [isDisplay,setisDisplay] = useState(false);
   const audioRef = useRef(null);
+  const [isLiked,setLiked] = useState(false);
   const song = useSelector((state) => state.song.song);
 
   // Toggle play/pause
@@ -70,10 +72,32 @@ const Footer = () => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
+  //Hadle like button click
+  const likeClick = async () => {
+    const result = await addToLiked(song.id);
+  }
+
   //to play the song automaticaly when a song is clicked
   useEffect(() => {
     audioRef.current.play();
     setIsPlaying(true);
+
+    
+    //checking if current song is in liked
+    const checkLiked = async () => {
+      const result = await getLikedSongs();
+      const likedArray = result.data.likedsongs;
+      for(const item of likedArray){
+        if(item === song.id){
+          setLiked(true);
+        }
+        else{
+          setLiked(false);
+        }        
+      }
+    }
+
+   checkLiked();    
   }, [song]);
 
   //setting the volume to 50% initially and pause intially
@@ -81,6 +105,7 @@ const Footer = () => {
     audioRef.current.volume = 0.5;
     audioRef.current.pause();
     setIsPlaying(false);
+
   }, []);
 
   return (
@@ -144,8 +169,8 @@ const Footer = () => {
       <div className="flex gap-4 items-center relative">
         {/* like option and add to playlist */}
         <div className="flex items-center gap-4">
-          <button className="active:text-red-500">
-            <FontAwesomeIcon icon={faHeart} className="focus:text-red-800" />
+          <button className="active:text-red-500" onClick={likeClick}>
+            <FontAwesomeIcon icon={faHeart} className={isLiked ? "focus:text-red-800 text-red-800" : "focus:text-red-800" } />
           </button>
 
           <button onClick={playlistDisplay}>

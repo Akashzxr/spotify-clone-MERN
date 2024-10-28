@@ -27,3 +27,24 @@ export const createNewPlaylist = async (name) => {
         console.error(error);
     }
 }
+
+//add liked songs
+export const addToLiked = async (songid) => {
+    try {
+        const response = await api.patch('/likesong',{
+            songId : songid
+        })        
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+//get the liked songs
+export const getLikedSongs = async () => {
+    try {
+        const response = await api.get('/likedsongs');
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
