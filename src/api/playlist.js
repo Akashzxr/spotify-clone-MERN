@@ -16,3 +16,14 @@ export const getUserPlaylist = async () =>{
         console.error(error);
     }
 }
+
+//create a new playlist
+export const createNewPlaylist = async (name) => {
+    try {
+        const response = await api.post('/create',{
+            name : name
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
