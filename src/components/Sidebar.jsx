@@ -3,7 +3,7 @@ import liked from "../assets/liked-songs.png";
 import saved from "../assets/saved.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faBars } from "@fortawesome/free-solid-svg-icons";
-import { getUserPlaylist, getPlaylistSong } from "../api/playlist";
+import { getUserPlaylist, getPlaylistSong, getLikedSongs } from "../api/playlist";
 import { createNewPlaylist } from "../api/playlist";
 import { useDispatch } from "react-redux";
 import { storePlaylistSongs } from "../redux/songSlice";
@@ -34,6 +34,12 @@ const Sidebar = () => {
   const getSongInfo = async (data) => {
     dispatch(storePlaylistSongs(await getPlaylistSong(data.playlistId)));
     navigate("/playlist")
+  }
+
+  //getting the liked songs
+  const getLiked = async () => {
+   const result = await getLikedSongs();
+   dispatch(storePlaylistSongs(result.songs));
   }
 
   //handling the enter in input
@@ -82,6 +88,7 @@ const Sidebar = () => {
         <ul className="pt-6">
           {/* liked songs icon */}
           <li
+          onClick={getLiked}
             className={`flex items-center gap-x-4 p-2 cursor-pointer hover:bg-gray-700 rounded-md ${
               isCollapsed ? "justify-center" : ""
             }`}

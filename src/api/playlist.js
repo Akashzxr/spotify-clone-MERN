@@ -42,7 +42,25 @@ export const addToLiked = async (songid) => {
 export const getLikedSongs = async () => {
   try {
     const response = await api.get("/likedsongs");
-    return response;
+    
+    //getting the information about song from jiosaavan api using song id
+    const songs = {
+      songsid : response.data.likedsongs,
+      songs:[]
+    };
+     const songsId = response.data.likedsongs;
+    for (const item of songsId) {
+      const songResult = await songById(item);
+       songs.songs.push({
+        "id": songResult.data.data[0].id,
+        "name": songResult.data.data[0].name,
+        "song":songResult.data.data[0].downloadUrl[4].url,
+        "image": songResult.data.data[0].image[2].url,
+        "artist": songResult.data.data[0].artists.primary[0].name,
+        "duration":songResult.data.data[0].duration,
+      }); 
+    }
+    return songs;
   } catch (error) {
     console.error(error);
   }

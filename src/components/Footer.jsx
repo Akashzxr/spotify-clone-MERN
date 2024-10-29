@@ -91,7 +91,7 @@ const Footer = () => {
     //checking if current song is in liked
     const checkLiked = async () => {
       const result = await getLikedSongs();
-      const likedArray = result.data.likedsongs;
+      const likedArray = result.songsid;
       for(const item of likedArray){
         if(item === song.id){
           setLiked(true);
