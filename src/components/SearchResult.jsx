@@ -9,8 +9,8 @@ function SearchResult() {
   return (
     <div className="text-white bg-background-gray w-full font-spotifytitle flex gap-8 flex-col max-h-78.1vh overflow-y-auto items-center py-7">
       {
-        song.length ? 
-        song.map((items, index) => (
+        songs.length ? 
+        songs.map((items, index) => (
             <SearchCard key={index} data={items} />
           ))
          : <h1 className="font-spotifytitle text-2xl max-h-3 my-auto">There is nothing to show</h1>

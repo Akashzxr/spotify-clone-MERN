@@ -40,6 +40,7 @@ const Sidebar = () => {
   const getLiked = async () => {
    const result = await getLikedSongs();
    dispatch(storePlaylistSongs(result.songs));
+   navigate('/playlist')
   }
 
   //handling the enter in input
