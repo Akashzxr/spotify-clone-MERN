@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const api = axios.create({
     baseURL: "https://saavn.dev/api", 
+    withCredentials: false,
 })
 
 
@@ -54,3 +55,14 @@ export const searchSong = async (songName) => {
   }
 }
 
+
+//get songs by id
+export const songById = async (id) => {
+  try {
+    const response = await api.get(`/songs/${id}`);
+   return response;
+  } catch (error) {
+    console.error(error);
+
+  }
+}

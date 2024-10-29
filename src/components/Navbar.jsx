@@ -31,7 +31,6 @@ function Navbar() {
   //handling the enter
   const handleEnter = async(e) =>{
     if(e.key === "Enter"){
-      //setResult(await searchSong(searchInput)); 
       dispatch(storeSearch(await searchSong(searchInput)))
       navigate('/search')     
     }

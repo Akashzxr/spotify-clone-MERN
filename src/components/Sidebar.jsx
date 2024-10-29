@@ -3,16 +3,22 @@ import liked from "../assets/liked-songs.png";
 import saved from "../assets/saved.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faBars } from "@fortawesome/free-solid-svg-icons";
-import { getUserPlaylist } from "../api/playlist";
+import { getUserPlaylist, getPlaylistSong } from "../api/playlist";
 import { createNewPlaylist } from "../api/playlist";
+import { useDispatch } from "react-redux";
+import { storePlaylistSongs } from "../redux/songSlice";
+import { useNavigate } from "react-router-dom";
+
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [playlists, setPlaylists] = useState();
   const [isAddBtnActive,setAddBtnActive] = useState(false)
   const [playlistName,setPlaylistName] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-
+  
   // Toggle sidebar collapse
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -22,6 +28,12 @@ const Sidebar = () => {
   const toggleInput = () => {
     setAddBtnActive(!isAddBtnActive);
     setPlaylistName("");
+  }
+
+  //getting the songs info from playlist
+  const getSongInfo = async (data) => {
+    dispatch(storePlaylistSongs(await getPlaylistSong(data.playlistId)));
+    navigate("/playlist")
   }
 
   //handling the enter in input
@@ -84,6 +96,7 @@ const Sidebar = () => {
           {playlists
             ? playlists.map((item, index) => (
                 <li
+                 onClick={()=>getSongInfo(item)}
                   key={index}
                   className={`flex items-center gap-x-4 p-2 cursor-pointer hover:bg-gray-700 rounded-md ${
                     isCollapsed ? "justify-center" : ""

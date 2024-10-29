@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import SearchCard from "./SearchCard";
 
 function SearchResult() {
-  const song = useSelector((state) => state.song.searchResult);
+  const songs = useSelector((state) => state.song.searchResult);
 
   return (
     <div className="text-white bg-background-gray w-full font-spotifytitle flex gap-8 flex-col max-h-78.1vh overflow-y-auto items-center py-7">
