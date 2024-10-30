@@ -2,23 +2,26 @@ import React, { useEffect, useState } from "react";
 import liked from "../assets/liked-songs.png";
 import saved from "../assets/saved.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faBars } from "@fortawesome/free-solid-svg-icons";
-import { getUserPlaylist, getPlaylistSong, getLikedSongs } from "../api/playlist";
+import { faAdd, faBars, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  getUserPlaylist,
+  getPlaylistSong,
+  getLikedSongs,
+  deletePlaylist
+} from "../api/playlist";
 import { createNewPlaylist } from "../api/playlist";
 import { useDispatch } from "react-redux";
 import { storePlaylistSongs } from "../redux/songSlice";
 import { useNavigate } from "react-router-dom";
 
-
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [playlists, setPlaylists] = useState();
-  const [isAddBtnActive,setAddBtnActive] = useState(false)
-  const [playlistName,setPlaylistName] = useState();
+  const [isAddBtnActive, setAddBtnActive] = useState(false);
+  const [playlistName, setPlaylistName] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  
   // Toggle sidebar collapse
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -28,28 +31,33 @@ const Sidebar = () => {
   const toggleInput = () => {
     setAddBtnActive(!isAddBtnActive);
     setPlaylistName("");
-  }
+  };
 
   //getting the songs info from playlist
   const getSongInfo = async (data) => {
     dispatch(storePlaylistSongs(await getPlaylistSong(data.playlistId)));
-    navigate("/playlist")
-  }
+    navigate("/playlist");
+  };
 
   //getting the liked songs
   const getLiked = async () => {
-   const result = await getLikedSongs();
-   dispatch(storePlaylistSongs(result.songs));
-   navigate('/playlist')
-  }
+    const result = await getLikedSongs();
+    dispatch(storePlaylistSongs(result.songs));
+    navigate("/playlist");
+  };
 
   //handling the enter in input
   const handleEnter = async (e) => {
-    if(e.key == "Enter"){
-      const result = await createNewPlaylist(playlistName)
+    if (e.key == "Enter") {
+      const result = await createNewPlaylist(playlistName);
       toggleInput();
     }
-  }
+  };
+
+  //handle delete
+  const handleDelete = async (data) => {
+    const result = await deletePlaylist(data.playlistId)
+  };
 
   useEffect(() => {
     const getdata = async () => {
@@ -58,7 +66,7 @@ const Sidebar = () => {
     };
 
     getdata();
-  }, [playlists,playlistName]);
+  }, [playlists, playlistName]);
 
   return (
     <div className="flex px-3 bg-black">
@@ -89,7 +97,7 @@ const Sidebar = () => {
         <ul className="pt-6">
           {/* liked songs icon */}
           <li
-          onClick={getLiked}
+            onClick={getLiked}
             className={`flex items-center gap-x-4 p-2 cursor-pointer hover:bg-gray-700 rounded-md ${
               isCollapsed ? "justify-center" : ""
             }`}
@@ -104,17 +112,26 @@ const Sidebar = () => {
           {playlists
             ? playlists.map((item, index) => (
                 <li
-                 onClick={()=>getSongInfo(item)}
+                  onClick={() => getSongInfo(item)}
                   key={index}
-                  className={`flex items-center gap-x-4 p-2 cursor-pointer hover:bg-gray-700 rounded-md ${
+                  className={`flex items-center justify-between p-2 cursor-pointer hover:bg-gray-700 rounded-md ${
                     isCollapsed ? "justify-center" : ""
                   }`}
                 >
-                  <span className="w-14 h-12 rounded-md bg-green-700 flex items-center justify-center font-spotifytitle text-3xl">
-                    {Array.from(item.playlistName)[0]}
-                  </span>
-                  <span className={`${isCollapsed ? "hidden" : "block"}`}>
-                    {item.playlistName}
+                  <div className="flex gap-x-4">
+                    <span className="w-14 h-12 rounded-md bg-green-700 flex items-center justify-center font-spotifytitle text-3xl">
+                      {Array.from(item.playlistName)[0]}
+                    </span>
+                    <span className={`${isCollapsed ? "hidden" : "block"}`}>
+                      {item.playlistName}
+                    </span>
+                  </div>
+
+                  <span onClick={()=>handleDelete(item)}>
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      className="active:text-red-700 hover:text-red-400"
+                    />
                   </span>
                 </li>
               ))
@@ -122,7 +139,7 @@ const Sidebar = () => {
 
           {/* crete new playlist button */}
           <li
-           onClick={toggleInput}
+            onClick={toggleInput}
             className={`flex items-center gap-x-4 p-2 cursor-pointer hover:bg-gray-700 rounded-md relative ${
               isCollapsed ? "justify-center" : ""
             }`}
@@ -135,7 +152,18 @@ const Sidebar = () => {
             </span>
           </li>
         </ul>
-        <input value={playlistName} onKeyDown={handleEnter} onChange={(e)=>setPlaylistName(e.target.value)} type="text" placeholder="enter playlist name" className={isAddBtnActive ?"rounded-md text-black bg-slate-500 px-2" : "hidden"}/>
+        <input
+          value={playlistName}
+          onKeyDown={handleEnter}
+          onChange={(e) => setPlaylistName(e.target.value)}
+          type="text"
+          placeholder="enter playlist name"
+          className={
+            isAddBtnActive
+              ? "rounded-md text-black bg-slate-500 px-2"
+              : "hidden"
+          }
+        />
       </div>
     </div>
   );

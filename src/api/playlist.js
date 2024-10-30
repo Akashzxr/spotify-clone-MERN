@@ -106,3 +106,14 @@ export const getPlaylistSong = async (playlistId) => {
     console.error(error);
   }
 };
+
+//deleting the playlist
+export const deletePlaylist = async (playlistId) => {
+  try {
+    const response = await api.delete(`/deleteplaylist/${playlistId}`)   
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
