@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { storeSong } from "../redux/songSlice";
+import { storeSong, storeSongIndex } from "../redux/songSlice";
 
-function SearchCard({ data }) {
+function SearchCard({ data,index }) {
   const dispatch = useDispatch();
 
   //to format time
@@ -15,6 +15,7 @@ function SearchCard({ data }) {
   //to play song on click
   const handleCardClick = () => {
     dispatch(storeSong(data));
+    dispatch(storeSongIndex(index));
   };
 
   return (

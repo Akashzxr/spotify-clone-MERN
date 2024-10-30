@@ -9,7 +9,7 @@ function Playlist() {
     {
       songs.length ? 
       songs.map((items, index) => (
-          <SearchCard key={index} data={items} />
+          <SearchCard key={index} data={items} index={index} />
         ))
        : <h1 className="font-spotifytitle text-2xl max-h-3 my-auto">There is nothing to show</h1>
     }

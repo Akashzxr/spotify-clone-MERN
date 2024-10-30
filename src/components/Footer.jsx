@@ -9,8 +9,9 @@ import {
   faPlay,
   faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToLiked, getLikedSongs, getUserPlaylist , addSongToPlaylist} from "../api/playlist";
+import { storeNext, storePrevious } from "../redux/songSlice";
 
 const Footer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -22,6 +23,7 @@ const Footer = () => {
   const [isLiked,setLiked] = useState(false);
   const [playLists,setPlaylists] = useState();
   const song = useSelector((state) => state.song.song);
+  const dispatch = useDispatch();
 
   // Toggle play/pause
   const togglePlayPause = () => {
@@ -83,6 +85,16 @@ const Footer = () => {
    const result = await addSongToPlaylist(playlistid.playlistId,song.id);
   }
 
+  //handle next song
+  const handleNextSong = () => {
+     dispatch(storeNext())
+  }
+
+  //handle previous song
+  const handlePreviousSong = () => {
+    dispatch(storePrevious())
+  }
+
   //to play the song automaticaly when a song is clicked
   useEffect(() => {
     audioRef.current.play();
@@ -136,7 +148,7 @@ const Footer = () => {
         {/*  cotrol Buttons */}
         <div className="flex items-center gap-10">
           {/* previous btn */}
-          <button>
+          <button onClick={handlePreviousSong}>
             <FontAwesomeIcon className="text-xl" icon={faBackwardStep} />
           </button>
           {/* play/pause btn */}
@@ -151,7 +163,7 @@ const Footer = () => {
             )}
           </button>
           {/* next btn */}
-          <button>
+          <button onClick={handleNextSong}>
             <FontAwesomeIcon className="text-xl" icon={faForwardStep} />
           </button>
         </div>
