@@ -10,6 +10,10 @@
       font-display: swap;
       src: url(./assets/fonts/SpotifyMixUITitle.woff2) format('woff2');
     }
+
+    .fullscreen-transition {
+      @apply transition-all ease-in-out delay-150 duration-1000;
+    }
   }
 
   .slider::-webkit-slider-thumb {
@@ -53,6 +57,7 @@
   /* custom scroll bar code */
   ::-webkit-scrollbar {
     width: 10px;
+    display: none;
   }
   
   /* Track */
@@ -68,4 +73,8 @@
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #555; 
+  }
+
+  body{
+    background-color: black;
   }

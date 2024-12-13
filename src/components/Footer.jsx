@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAdd,
@@ -133,7 +133,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <div className="w-full max-w-full bg-black text-white p-4 flex items-center justify-between space-x-4">
+    <div className="w-full max-w-full bg-black text-white p-4 flex items-center justify-between space-x-4 h-full">
       {/* Album Cover and Info */}
       <div className="flex items-center space-x-3">
         <img src={song.image} alt="Album Cover" className="w-12 h-12 rounded" />
@@ -238,6 +238,7 @@ const Footer = () => {
         src={song.song}
         onTimeUpdate={handleTimeUpdate}
         onLoadedData={handleLoadedData}
+        className="hidden md:block"
       ></audio>
     </div>
   );

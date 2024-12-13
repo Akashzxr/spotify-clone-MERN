@@ -15,7 +15,7 @@ function CardRepeater({ id }) {
   }, []);
 
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className="flex items-baseline justify-between w-full overflow-x-auto">
       {songs
         ? songs.map((items, index) => (
             <MusicCard key={index} data={items} />

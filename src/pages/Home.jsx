@@ -18,7 +18,7 @@ function Home() {
   }, []);
 
   return (
-    <div className="bg-background-gray w-full px-6 py-5 flex flex-col gap-10 max-h-78.1vh overflow-y-auto">
+    <div className="bg-background-gray w-full px-2 py-5 flex flex-col gap-10 max-h-78.1vh overflow-y-auto pb-28 md:px-6 md:pb-0">
       {
         homePlaylist.map((playlist,index)=> (
         <div className="flex flex-col gap-6" key={index}>

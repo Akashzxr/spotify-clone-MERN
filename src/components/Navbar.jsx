@@ -46,7 +46,7 @@ function Navbar() {
       </div>
 
       {/* Search and home */}
-      <div className="flex items-center gap-3">
+      <div className="items-center gap-3 hidden md:flex">
         <Link to={'/'}>
         <div className="bg-navbar-gray rounded-full w-10 h-10 flex items-center justify-center">
           <FontAwesomeIcon icon={faHome} color="white" className="text-xl" />
