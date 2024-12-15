@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import SearchResult from '../components/searchResult';
 
 export const songSlice = createSlice({
   name: 'song',
