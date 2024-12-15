@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import {
   faAdd,
   faAngleDown,
-  faArrowDown,
   faBackwardStep,
   faBars,
   faForwardStep,
@@ -13,7 +12,6 @@ import {
   faMagnifyingGlass,
   faPause,
   faPlay,
-  faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -28,7 +26,7 @@ const MobilePlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(50);
+
   const [isFullScreen, setFullScreen] = useState(false);
   const [isDisplay, setisDisplay] = useState(false);
   const audioRef = useRef(null);
@@ -73,12 +71,6 @@ const MobilePlayer = () => {
     setCurrentTime(e.target.value);
   };
 
-  //handle the volume change
-  const handleVolume = (e) => {
-    audioRef.current.volume = e.target.value / 100;
-    setVolume(e.target.value);
-  };
-
   // Format time (mm:ss)
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -88,12 +80,12 @@ const MobilePlayer = () => {
 
   //Hadle like button click
   const likeClick = async () => {
-    const result = await addToLiked(song.id);
+    await addToLiked(song.id);
   };
 
   //add song to the playlist
   const addToplaylist = async (playlistid) => {
-    const result = await addSongToPlaylist(playlistid.playlistId, song.id);
+    await addSongToPlaylist(playlistid.playlistId, song.id);
   };
 
   //handle next song
@@ -137,7 +129,6 @@ const MobilePlayer = () => {
 
   //setting the volume to 50% initially and pause intially
   useEffect(() => {
-    // audioRef.current.volume = 0.5;
     audioRef.current.pause();
     setIsPlaying(false);
     console.log(isFullScreen);
@@ -151,8 +142,8 @@ const MobilePlayer = () => {
         }`}
       >
         <div
-          className={`flex items-center justify-between w-full ${
-            isFullScreen ? "flex-col" : "flex-row"
+          className={`flex items-center w-full ${
+            isFullScreen ? "flex-col justify-end h-full gap-3" : "flex-row justify-between"
           }`}
         >
           <FontAwesomeIcon
@@ -167,7 +158,7 @@ const MobilePlayer = () => {
             src={song.image}
             alt="Album Cover"
             className={`fullscreen-transition w-12 h-12 rounded-lg ${
-              isFullScreen && "w-full h-full"
+              isFullScreen && "w-full h-auto"
             }`}
           />
 
@@ -178,9 +169,7 @@ const MobilePlayer = () => {
             }`}
           >
             {/* descriptoin of the music */}
-            <div
-            onClick={() => (!isFullScreen ? setFullScreen(true) : null)}
-            >
+            <div onClick={() => (!isFullScreen ? setFullScreen(true) : null)}>
               <p
                 className={`font-bold overflow-ellipsis music-name ${
                   isFullScreen
@@ -334,28 +323,32 @@ const MobilePlayer = () => {
 
       {/* mobile navbar */}
       <div
-        className={`fullscreen-transition justify-between items-center px-6 py-4 ${
-          isFullScreen ? "opacity-0 flex" : "flex opacity-100"
-        }`}
+        className={`flex justify-between items-center px-6 py-4`}
       >
-        <Link to={'/'} className="flex flex-col items-center justify-center gap-1">
+        <Link
+          to={"/"}
+          className="flex flex-col items-center justify-center gap-1"
+        >
           <FontAwesomeIcon icon={faHome} color="white" className="text-xl" />
           <p className="text-white text-xs">Home</p>
         </Link>
 
-        <div className="flex flex-col items-center justify-center gap-1">
+        <Link
+          to={"/search"}
+          className="flex flex-col items-center justify-center gap-1"
+        >
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             color="white"
             className="text-xl"
           />
           <p className="text-white text-xs">Search</p>
-        </div>
+        </Link>
 
-        <div className="flex flex-col items-center justify-center gap-1">
+        <Link to={"/playlists"} className="flex flex-col items-center justify-center gap-1">
           <FontAwesomeIcon icon={faBars} color="white" className="text-xl" />
           <p className="text-white text-xs">Your Library</p>
-        </div>
+        </Link>
       </div>
     </div>
   );

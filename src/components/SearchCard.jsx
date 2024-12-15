@@ -20,7 +20,7 @@ function SearchCard({ data,index }) {
 
   return (
     <div
-      className="flex items-center justify-between w-1/2"
+      className="flex items-center justify-between w-11/12 md:w-1/2"
       onClick={handleCardClick}
     >
       {/* image and song title and artist */}

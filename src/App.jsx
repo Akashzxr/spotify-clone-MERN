@@ -4,8 +4,9 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import HomeLayout from "./Layouts/HomeLayout";
 import Home from "./pages/Home";
-import SearchResult from "./components/searchResult";
+import SearchResult from "./components/SearchResult";
 import Playlist from "./pages/Playlist";
+import PlaylistsMobile from "./components/PlaylistsMobile";
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<SearchResult />} />
           <Route path="/playlist" element={<Playlist />} />
+          <Route path="/playlists" element={<PlaylistsMobile />} />
         </Route>
+        
       </Routes>
     </>
   );
