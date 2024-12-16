@@ -2,7 +2,7 @@ import axios from "axios";
 import { songById } from "./songs";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000/playlist",
+  baseURL: import.meta.env.VITE_API_URL+"/playlist",
   withCredentials: true,
 });
 
