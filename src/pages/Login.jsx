@@ -24,7 +24,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await login(inputvalue);
-    const { message,success } = result;
+    const { message,success } = await result;
     if(success){
       navigate("/")
     }

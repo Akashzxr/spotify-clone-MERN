@@ -32,7 +32,7 @@ function HomeLayout() {
     };
 
     verifyCookie();
-  }, [cookies, navigate]);
+  }, [cookies]);
 
   return (
     <div>
