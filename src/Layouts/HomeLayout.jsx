@@ -22,7 +22,7 @@ function HomeLayout() {
       const { status, user } = result;
 
       if (!status) {
-        removeCookie("token");
+        //removeCookie("token");
         navigate("/login");
       }
     };
