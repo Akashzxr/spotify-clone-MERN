@@ -20,14 +20,16 @@ function HomeLayout() {
       //verifiying the user through token
       const result = await verifyUser();
       const { status, user } = result;
+      console.log(status);
+      console.log(user);
+      
+      
 
       if (!status) {
-        //removeCookie("token");
+        removeCookie("token");
         navigate("/login");
       }
     };
-
-    console.log(width);
 
     verifyCookie();
   }, [cookies, navigate]);
