@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import logo from "../assets/spotify.svg";
-import { Link,useNavigate } from "react-router-dom";
-import { login } from "../api/auth";
-import { ToastContainer,toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { login, verifyUser } from "../api/auth";
+import { ToastContainer, toast } from "react-toastify";
+import { useCookies } from "react-cookie";
 
 function Login() {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ function Login() {
     email: "",
     password: "",
   });
+  const [cookies, removeCookie] = useCookies([]);
 
   //handle the changing input
   const handleOnchange = (e) => {
@@ -24,19 +26,37 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await login(inputvalue);
-    const { message,success } = await result;
-    if(success){
-      navigate("/")
-    }
-    else{
-      toast.error(message)
-    }
-  }
+    const { message, success } = await result;
 
+    const verifyCookie = async () => {
+      //verifiying the user through token
+      const result = await verifyUser();
+      const { status, user } = result;
+      console.log(status);
+      console.log(user);
+
+      if (!status) {
+       // removeCookie("token");
+        navigate("/login");
+        console.log("error is there");
+      }
+      else{
+        navigate("/");
+      }
+    };
+
+    verifyCookie();
+
+   /*  if (success) {
+      navigate("/");
+    } else {
+      toast.error(message);
+    } */
+  };
 
   return (
     <div className="flex items-center justify-center min-h-svh bg-black text-white md:min-h-screen">
-      <ToastContainer/>
+      <ToastContainer />
       <div className="w-full max-w-md p-7 space-y-6">
         {/* logo */}
         <div className="flex justify-center">

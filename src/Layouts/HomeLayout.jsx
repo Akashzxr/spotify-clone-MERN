@@ -22,8 +22,6 @@ function HomeLayout() {
       const { status, user } = result;
       console.log(status);
       console.log(user);
-      
-      
 
       if (!status) {
         removeCookie("token");
