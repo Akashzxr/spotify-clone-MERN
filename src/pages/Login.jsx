@@ -26,12 +26,14 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await login(inputvalue);
-    const { message, success } = await result;
-
+    const { message, success,token } = await result;
+    
+    console.log("token:"+token);
+    
     const verifyCookie = async () => {
       //verifiying the user through token
       const result = await verifyUser();
-      const { status, user } = result;
+      const { status, user } = await result;
       console.log(status);
       console.log(user);
 

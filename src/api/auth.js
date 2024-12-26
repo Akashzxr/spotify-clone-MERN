@@ -13,7 +13,8 @@ export const signup = async (userInfo) => {
 export const login = async (userInfo) => {
   try {
     const response = await api.post('/login', userInfo);
-    return response.data;
+    console.log("api"+response.data.token);
+    return await response.data;
   } catch (error) {
     console.error('login failed:', error);
     throw error;
@@ -23,7 +24,7 @@ export const login = async (userInfo) => {
 export const verifyUser = async () => {
   try{
     const response = await api.post('/',{});
-    return response.data;
+    return await response.data;
   }catch (error) {
     console.log('user verificarion failed',error);
   }
