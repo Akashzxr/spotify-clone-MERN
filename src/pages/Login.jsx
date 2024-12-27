@@ -65,7 +65,7 @@ function Login() {
     if (cookies.token) {
       console.log("Updated cookies.token:", cookies.token);
       const verifyCookie = async () => {
-        const result2 = await verifyUser();
+        const result2 = await verifyUser(cookies.token);
         const { status, user } = await result2;
         console.log(status);
         console.log(user);

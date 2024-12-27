@@ -18,7 +18,7 @@ function HomeLayout() {
     //verifiying if token is there in cookie
     const verifyCookie = async () => {
       //verifiying the user through token
-      const result = await verifyUser();
+      const result = await verifyUser(cookies.token);
       const { status, user } = result;
       console.log(status);
       console.log(user);

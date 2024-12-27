@@ -21,9 +21,9 @@ export const login = async (userInfo) => {
   }
 };
 
-export const verifyUser = async () => {
+export const verifyUser = async (token) => {
   try{
-    const response = await api.post('/',{});
+    const response = await api.post('/',{"token":token});
     return await response.data;
   }catch (error) {
     console.log('user verificarion failed',error);
