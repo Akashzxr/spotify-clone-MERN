@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/spotify.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { login, verifyUser } from "../api/auth";
@@ -11,7 +11,7 @@ function Login() {
     email: "",
     password: "",
   });
-  const [cookies,setCookie, removeCookie] = useCookies([]);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
   //handle the changing input
   const handleOnchange = (e) => {
@@ -26,9 +26,9 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await login(inputvalue);
-    const { message, success,token } = await result;
-    
-    console.log("token:"+token);
+    const { message, success, token } = await result;
+
+    console.log("token:" + token);
 
     setCookie("token", token, {
       path: "/", // Make the cookie accessible across the site
@@ -36,33 +36,51 @@ function Login() {
       httpOnly: false, // This is client-side, so httpOnly is not applicable
     });
 
-    console.log("token cookie:"+cookies.token);
+    /*  console.log("token cookie:"+cookies.token); */
 
-    const verifyCookie = async () => {
-      //verifiying the user through token
-      const result = await verifyUser();
-      const { status, user } = await result;
+    //verifiying the user through token
+    /* const verifyCookie = async () => {
+      const result2 = await verifyUser();
+      const { status, user } = await result2;
       console.log(status);
       console.log(user);
 
       if (!status) {
-       // removeCookie("token");
+        // removeCookie("token");
         navigate("/login");
         console.log("error is there");
-      }
-      else{
+      } else {
         navigate("/");
       }
-    };
+    }; */
 
-    verifyCookie();
-
-   /*  if (success) {
+    /*  if (success) {
       navigate("/");
     } else {
       toast.error(message);
     } */
   };
+
+  useEffect(() => {
+    if (cookies.token) {
+      console.log("Updated cookies.token:", cookies.token);
+      const verifyCookie = async () => {
+        const result2 = await verifyUser();
+        const { status, user } = await result2;
+        console.log(status);
+        console.log(user);
+
+        if (!status) {
+          // removeCookie("token");
+          navigate("/login");
+          console.log("error is there");
+        } else {
+          navigate("/");
+        }
+      };
+      verifyCookie();
+    }
+  }, [cookies]);
 
   return (
     <div className="flex items-center justify-center min-h-svh bg-black text-white md:min-h-screen">
