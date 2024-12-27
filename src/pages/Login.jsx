@@ -11,7 +11,7 @@ function Login() {
     email: "",
     password: "",
   });
-  const [cookies, removeCookie] = useCookies([]);
+  const [cookies,setCookie, removeCookie] = useCookies([]);
 
   //handle the changing input
   const handleOnchange = (e) => {
@@ -29,7 +29,15 @@ function Login() {
     const { message, success,token } = await result;
     
     console.log("token:"+token);
-    
+
+    setCookie("token", token, {
+      path: "/", // Make the cookie accessible across the site
+      maxAge: 3 * 24 * 60 * 60, // Cookie expiration in seconds (3 days)
+      httpOnly: false, // This is client-side, so httpOnly is not applicable
+    });
+
+    console.log("token cookie:"+cookies.token);
+
     const verifyCookie = async () => {
       //verifiying the user through token
       const result = await verifyUser();
