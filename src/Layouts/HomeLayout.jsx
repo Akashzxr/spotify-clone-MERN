@@ -24,7 +24,7 @@ function HomeLayout() {
       console.log(user);
 
       if (!status) {
-        removeCookie("token");
+        //removeCookie("token");
         navigate("/login");
       }
     };
